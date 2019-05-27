@@ -1,0 +1,1 @@
+# photoshop-script-text-translator

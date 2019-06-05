@@ -34,4 +34,5 @@ NOTE: Edit same keys in Photoshop projet AND `*.json` files.
 
 ## References
 
-- https://github.com/fabianmoronzirfas/extendscript/wiki/Read-In-JSON-From-File-And-DONT-Eval
+- [Photoshop read json file](https://github.com/fabianmoronzirfas/extendscript/wiki/Read-In-JSON-From-File-And-DONT-Eval)
+- [Photoshop get layer type](http://creativetuts.com/photoshop-script-determine-layer-kind/)

@@ -18,56 +18,57 @@ var input = app.activeDocument.path;
 
 /* *************************************************** */
 
+// Because Photoshop doesn't
+function JSON_parse(fileContent) {
+    /// Extend script doesn't support JSON. Are you fucking kidding?
+    // obj = JSON.parse(file_to_read .read());
+    // Worry not. We got potentially harmful, yet useful, `eval` function.
+    var jsonFile = eval("(" + fileContent + ")");
+    return jsonFile;
+}
+
+function FILE_toString(fileToRead) {
+    if (fileToRead === false) {
+        alert("File read error:" + jsonFilePath);
+    }
+    fileToRead.open('r');
+    var fileContent = fileToRead.read();
+    fileToRead.close();
+    return fileContent;
+}
+
 //Get the currently opened Photoshop document
 var doc = app.activeDocument;
 
 // Use absolute path for the JSON file.
-var lang_file_path = input + "/translation-en.json";
+var langFilePath = input + "/translation-fr.json";
 
-// Get file object
-var file_to_read = File(lang_file_path);
-if (file_to_read === false) {
-    // if something went wrong
-    alert("Bah!");
-}
-file_to_read.open('r');
+var fileToRead = File(langFilePath);
+var fileContent = FILE_toString(fileToRead);
+var messages = JSON_parse(fileContent);
 
-// Read and get the content
-var content = file_to_read.read();
-file_to_read.close();
-
-/// Extend script doesn't support JSON. Are you fucking kidding?
-// obj = JSON.parse(file_to_read .read());
-
-// Worry not. We got potentially harmful, yet useful, `eval` function.
-stuff = eval("(" + content + ")")
-
-alert(stuff.name);
-/*
-for(fieldname in stuff) {
-
-}
-*/
-//Show each layer each time and save a snapshot
+// Translate each text layers and sub layers
 for (var i = 0; i < doc.layers.length; i++) {
+    var currLayer = doc.layers[i];
 
-    /*
-        //Hide all the layers
-        for (var j = 0; j < doc.layers.length; j++) {
-            doc.layers[j].visible = false;
+    // check layer is visible
+    if (currLayer.visible === false) {
+        break;
+    }
+
+    if (currLayer.kind === LayerKind.TEXT) {
+
+        // get translation
+        var translation = messages[currLayer.name];
+
+        // check translation founded
+        if (!translation) {
+            break;
         }
-    
-        // show layer
-        var layerIndex = i;
-        doc.layers[layerIndex].visible = true;
-    
-        var layerName = doc.layers[layerIndex].name;
-        var filename = doc.name;
-        filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to the construction.  
-    
-        // save
-        var file = new File(output + filename + "_" + layerName + ".png");
-        var saveOptions = new PNGSaveOptions();
-        doc.saveAs(file, saveOptions, true, Extension.LOWERCASE);
-        */
+
+        // set new text
+        currLayer.textItem.contents = translation;
+    }
+
+    // TODO: group and sub layers
 }

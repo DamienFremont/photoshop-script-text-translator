@@ -40,35 +40,49 @@ function FILE_toString(fileToRead) {
 //Get the currently opened Photoshop document
 var doc = app.activeDocument;
 
-// Use absolute path for the JSON file.
-var langFilePath = input + "/translation-fr.json";
 
-var fileToRead = File(langFilePath);
-var fileContent = FILE_toString(fileToRead);
-var messages = JSON_parse(fileContent);
+var langs = ["en", "fr"];
 
-// Translate each text layers and sub layers
-for (var i = 0; i < doc.layers.length; i++) {
-    var currLayer = doc.layers[i];
+for (var t = 0; t < langs.length; t++) {
+    var tt = langs[t];
 
-    // check layer is visible
-    if (currLayer.visible === false) {
-        break;
-    }
+    // Use absolute path for the JSON file.
+    var langFilePath = input + "/translation-" + tt + ".json";
 
-    if (currLayer.kind === LayerKind.TEXT) {
+    var fileToRead = File(langFilePath);
+    var fileContent = FILE_toString(fileToRead);
+    var messages = JSON_parse(fileContent);
 
-        // get translation
-        var translation = messages[currLayer.name];
+    // Translate each text layers and sub layers
+    for (var i = 0; i < doc.layers.length; i++) {
+        var currLayer = doc.layers[i];
 
-        // check translation founded
-        if (!translation) {
+        // check layer is visible
+        if (currLayer.visible === false) {
             break;
         }
 
-        // set new text
-        currLayer.textItem.contents = translation;
+        if (currLayer.kind === LayerKind.TEXT) {
+
+            // get translation
+            var translation = messages[currLayer.name];
+
+            // check translation founded
+            if (!translation) {
+                break;
+            }
+
+            // set new text
+            currLayer.textItem.contents = translation;
+        }
+
+        // TODO: group and sub layers
     }
 
-    // TODO: group and sub layers
+    // save
+    var filename = doc.name;
+    filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to the construction.      
+    var file = new File(output + "/" + filename + "-" + tt + ".png");
+    var saveOptions = new PNGSaveOptions();
+    doc.saveAs(file, saveOptions, true, Extension.LOWERCASE);
 }

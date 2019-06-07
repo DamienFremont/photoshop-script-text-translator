@@ -14,7 +14,7 @@
  * @param (output) Current Photoshop project
  */
 
-var langs = ["en", "ja", "ko", "zh-TW", "de", "fr", "pt", ""];
+var langs = ["en", "ja", "ko", "zh-TW", "de", "fr", "pt", "es", "it", "ru", "hi"];
 var langFallback = "en";
 // get the path of currently opened photoshop document
 var output = app.activeDocument.path;

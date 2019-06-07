@@ -13,10 +13,9 @@
 // get the path of currently opened photoshop document
 var output = app.activeDocument.path;
 var input = app.activeDocument.path;
-// var output = $.getenv("USERPROFILE") + "/Documents/";
-// var output = Folder.Desktop
+var langs = ["en", "fr"];
 
-/* *************************************************** */
+/* UTILS *************************************************** */
 
 // Because Photoshop doesn't
 function JSON_parse(fileContent) {
@@ -37,6 +36,8 @@ function FILE_toString(fileToRead) {
     return fileContent;
 }
 
+/* EXECUTION *************************************************** */
+
 //Get the currently opened Photoshop document
 var doc = app.activeDocument;
 
@@ -44,14 +45,12 @@ var doc = app.activeDocument;
 var filename = doc.name;
 filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to the construction.      
 
-var langs = ["en", "fr"];
-
+// execute for eqch languages
 for (var t = 0; t < langs.length; t++) {
     var tt = langs[t];
 
     // Use absolute path for the JSON file.
     var langFilePath = input + "/" + filename + "-" + tt + ".json";
-
     var fileToRead = File(langFilePath);
     var fileContent = FILE_toString(fileToRead);
     var messages = JSON_parse(fileContent);
@@ -65,21 +64,21 @@ for (var t = 0; t < langs.length; t++) {
             break;
         }
 
-        if (currLayer.kind === LayerKind.TEXT) {
-
-            // get translation
-            var translation = messages[currLayer.name];
-
-            // check translation founded
-            if (!translation) {
-                break;
-            }
-
-            // set new text
-            currLayer.textItem.contents = translation;
+        // check layer is text
+        if (currLayer.kind != LayerKind.TEXT) {
+            break;
         }
 
-        // TODO: group and sub layers
+        // get translation
+        var translation = messages[currLayer.name];
+
+        // check translation founded
+        if (!translation) {
+            break;
+        }
+
+        // set new text
+        currLayer.textItem.contents = translation;
     }
 
     // save

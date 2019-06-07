@@ -6,14 +6,19 @@
  * Usage: generate screenshots files for your app (ex: 
  * Googleplay, etc).
  * 
+ * @param langs array of languages, linked to translation 
+ * files named like '<photoshopprojectname>-<lang>.json'
+ * @param langFallback language to use when json file does
+ * not exist.
  * @param (input) Current Photoshop project
- * @param ouput Target folder path to generated files
+ * @param (output) Current Photoshop project
  */
 
+var langs = ["en", "ja", "ko", "zh-TW", "de", "fr", "pt", ""];
+var langFallback = "en";
 // get the path of currently opened photoshop document
 var output = app.activeDocument.path;
 var input = app.activeDocument.path;
-var langs = ["en", "fr"];
 
 /* UTILS *************************************************** */
 
@@ -36,6 +41,10 @@ function FILE_toString(fileToRead) {
     return fileContent;
 }
 
+function loadLangFile(langKey) {
+
+}
+
 /* EXECUTION *************************************************** */
 
 //Get the currently opened Photoshop document
@@ -47,12 +56,21 @@ filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to
 
 // execute for eqch languages
 for (var t = 0; t < langs.length; t++) {
-    var tt = langs[t];
+    var currentLang = langs[t];
+    var fileContent;
 
     // Use absolute path for the JSON file.
-    var langFilePath = input + "/" + filename + "-" + tt + ".json";
+    var langFilePath = input + "/" + filename + "-" + currentLang + ".json";
     var fileToRead = File(langFilePath);
-    var fileContent = FILE_toString(fileToRead);
+    fileContent = FILE_toString(fileToRead);
+
+    // Use default language if file not found!
+    if (fileContent === "") {
+        var langFilePath2 = input + "/" + filename + "-" + langFallback + ".json";
+        var fileToRead2 = File(langFilePath2);
+        fileContent = FILE_toString(fileToRead2);
+    }
+
     var messages = JSON_parse(fileContent);
 
     // Translate each text layers and sub layers
@@ -82,8 +100,7 @@ for (var t = 0; t < langs.length; t++) {
     }
 
     // save
-    var file = new File(output + "/" + filename + "-" + tt + ".png");
+    var file = new File(output + "/" + filename + "-" + currentLang + ".png");
     var saveOptions = new PNGSaveOptions();
-    alert(file);
     doc.saveAs(file, saveOptions, true, Extension.LOWERCASE);
 }

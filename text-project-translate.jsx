@@ -40,6 +40,9 @@ function FILE_toString(fileToRead) {
 //Get the currently opened Photoshop document
 var doc = app.activeDocument;
 
+// get filename without extension
+var filename = doc.name;
+filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to the construction.      
 
 var langs = ["en", "fr"];
 
@@ -47,7 +50,7 @@ for (var t = 0; t < langs.length; t++) {
     var tt = langs[t];
 
     // Use absolute path for the JSON file.
-    var langFilePath = input + "/translation-" + tt + ".json";
+    var langFilePath = input + "/" + filename + "-" + tt + ".json";
 
     var fileToRead = File(langFilePath);
     var fileContent = FILE_toString(fileToRead);
@@ -80,9 +83,8 @@ for (var t = 0; t < langs.length; t++) {
     }
 
     // save
-    var filename = doc.name;
-    filename = filename.slice(0, filename.lastIndexOf(".")); //just add this line to the construction.      
     var file = new File(output + "/" + filename + "-" + tt + ".png");
     var saveOptions = new PNGSaveOptions();
+    alert(file);
     doc.saveAs(file, saveOptions, true, Extension.LOWERCASE);
 }

@@ -17,7 +17,7 @@ Usage: generate screenshots files for your app (ex: Googleplay, etc).
 
 NOTE: Edit `output` value in `text-project-translate.jsx` with you want to change the target folder
 
-NOTE: Edit `fr-FR.json` or `en-EN.json` content to change translation text.
+NOTE: Edit `project-to-screenshot-fr.json` or `project-to-screenshot-en.json` content to change translation text.
 
 NOTE: Edit same keys in Photoshop projet AND `*.json` files.
 

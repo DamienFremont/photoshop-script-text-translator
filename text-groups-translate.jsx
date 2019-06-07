@@ -18,7 +18,7 @@ var langs = ["en", "ja", "ko", "zh-TW", "de", "fr", "pt", ""];
 var langFallback = "en";
 // get the path of currently opened photoshop document
 var inputPath = app.activeDocument.path;
-var outputPath = app.activeDocument.path;
+var outputPath = app.activeDocument.path + "/generated";
 
 /* UTILS *************************************************** */
 
@@ -39,10 +39,6 @@ function FILE_toString(fileToRead) {
     var fileContent = fileToRead.read();
     fileToRead.close();
     return fileContent;
-}
-
-function loadLangFile(langKey) {
-
 }
 
 /* EXECUTION *************************************************** */
@@ -116,6 +112,7 @@ for (var y = 0; y < doc.layers.length; y++) {
         }
 
         // save
+        // TODO: create outputPath
         var file = new File(outputPath + "/" + filename + "-" + currentLang + "-" + (y + 1) + ".png");
         var saveOptions = new PNGSaveOptions();
         doc.saveAs(file, saveOptions, true, Extension.LOWERCASE);

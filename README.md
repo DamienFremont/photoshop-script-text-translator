@@ -21,6 +21,8 @@ NOTE: Edit `project-to-screenshot-fr.json` or `project-to-screenshot-en.json` co
 
 NOTE: Edit same keys in Photoshop projet AND `*.json` files.
 
+NOTE: Use 'MS Gothic' type for asian languages. 
+
 ## Getting started (multiple screenshot layers by project)
 
 * Clone this reposity

@@ -3,7 +3,6 @@ WORK IN PROGRESS
 PHOTOSHOP-SCRIPT-TEXT-TRANSLATOR
 ================================
 
-
 Photoshop script to translate text layers based on lang JSON file, then export project to PNG images for each language.
 
 Usage: generate screenshots files for your app (ex: Googleplay, etc).
@@ -21,7 +20,7 @@ NOTE: Edit `project-to-screenshot-fr.json` or `project-to-screenshot-en.json` co
 
 NOTE: Edit same keys in Photoshop projet AND `*.json` files.
 
-NOTE: Use 'MS Gothic' type for asian languages. 
+NOTE: Use 'Unicode' type for universql support (asian and russian fonts). 
 
 ## Getting started (multiple screenshot layers by project)
 
@@ -30,7 +29,16 @@ NOTE: Use 'MS Gothic' type for asian languages.
 * Execute `text-layers-translate.bat`
 * Get your results from your `Documents` folder
 
-## Example
+## Example - Test with 1 Screenshot (project)
+
+## Example - Test with 2 Screenshot (group)
+
+## Example - External Project
+
+translate-screenshots.bat
+```javascript
+"C:\Program Files (x86)\Photoshop\Photoshop.exe" c:\Users\damien\git\photoshop-script-text-translator\text-groups-translate.jsx
+```
 
 ![picture](docs/ScreenShot000.png)
 

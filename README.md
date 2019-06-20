@@ -1,5 +1,3 @@
-WORK IN PROGRESS
-
 PHOTOSHOP-SCRIPT-TEXT-TRANSLATOR
 ================================
 
